@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+	<div th:replace="fragments/resources :: headTags">
+	</div>
+	<title>Pizze</title>
+</head>
+
+<body>
+	<h1>Pizze</h1>
+	<hr />
+	<div class="mb-3 mx-5 d-flex justify-content-between">
+		<a class="btn btn-primary" th:href="@{/create}"><i class="fas fa-plus"></i> Aggiungi Pizza</a>
+		<form th:action="@{/}" method="get">
+			<div class="input-group ">
+				<input name="keyword" th:value="${keyword}"class="form-control " type="search" placeholder="Search" aria-label="Search">
+				<button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> </button>
+			</div>
+		</form >
+	</div>
+	<table class="table" th:if="${list.size > 0}">
+		<thead>
+			<tr>
+				<th>Nome Pizza</th>
+				<th>Descrizione</th>
+				<th>Prezzo</th>
+				<th>Ingredienti</th>
+				
+			</tr>
+			</thead>
+			<tbody>
+				<tr th:each="item:${list}">
+					<td th:text="${item.nome}"></td>
+					<td th:text="${item.descrizione}"></td>
+					<td th:text="${item.prezzo}"></td>
+					<td th:each="ingr : ${item.ingredienti}" th:text="${ingr.nome}"></td >
+						
+					
+					
+					<td>
+					<a class="btn btn-primary" th:href="@{|/edit/${item.id}|}"><i class="fas fa-edit"></i></a>
+					<a class="btn btn-primary" th:href="@{|/delete/${item.id}|}" onclick="return confirm('Vuoi cancellare l elemento selezionato?')"><i class="fas fa-trash"></i></a>
+					</td>
+					
+				</tr>
+			</tbody>
+
+	</table>
+	
+	<div class="alert alert-primary" role="alert" th:unless="${list.size>0}">
+		non ci sono pizze nel database
+	</div>
+	<div th:replace="fragments/resources ::scripts"></div>
+
+</body>
+
+</html>
